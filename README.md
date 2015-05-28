@@ -3,6 +3,9 @@ Gra oparta na popularnej grze planszowej scrabble pozwalająca nieograniczonej l
 
 Gra będzie używać listy slów ze growego słownika języka polskiego: http://sjp.pl/slownik/growy/. Słowa będą przechowywane w bazie (prawdopodobnie mongodb).
 
+### Demo aplikacji
+https://stormy-woodland-8814.herokuapp.com/
+
 ### Technologie
 * node.js: http://nodejs.org
 * jQuery: http://jquery.com
