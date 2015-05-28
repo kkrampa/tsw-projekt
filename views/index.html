@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <table data-ng-app="game" data-ng-controller="boardCtrl">
+        <tr data-ng-repeat="row in board">
+            <td data-ng-repeat="cell in row" style="background-color: {% raw %}{{ cell.color }}{% endraw %}"></td>
+        </tr>
+    </table>
+{% endblock %}
