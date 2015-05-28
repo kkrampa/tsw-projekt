@@ -1,0 +1,21 @@
+{
+  "name": "tswProjekt",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kkrampa/tsw-projekt",
+  "authors": [
+    "Kamil Krampa <kkrampa@soldevelo.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.15",
+    "jquery": "~2.1.4",
+    "angular-ui-router": "~0.2.14"
+  }
+}

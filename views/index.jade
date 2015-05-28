@@ -3,4 +3,9 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  canvas(id="board", width=800, height=800) Twoja przeglądarka nie obsługuje elementu Canvas.
+  
+  table(data-ng-app="game" data-ng-controller="boardCtrl")
+
+    tr(data-ng-repeat="row in board")
+      td(data-ng-repeat="cell in row" style="background-color: {{ cell.color }}") 
+      
