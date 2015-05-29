@@ -1,3 +1,5 @@
+[![Build Status](https://magnum.travis-ci.com/kkrampa/tsw-projekt.svg?token=oZ1rVk8NKVByxhfQDbk5&branch=master)](https://magnum.travis-ci.com/kkrampa/tsw-projekt)
+
 # Scrabble
 Gra oparta na popularnej grze planszowej scrabble pozwalająca nieograniczonej liczbie par graczy na rozgrywanie pojedynków między sobą. 
 
