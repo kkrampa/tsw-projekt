@@ -3,9 +3,9 @@
 <div data-ng-app="game" data-ng-controller="boardCtrl">
     <table>
         <tr data-ng-repeat="row in board">
-            <td jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" data-drop="true"
-                data-ng-repeat="cell in row" style="background-color: {% raw %}{{ cell.color }}{% endraw %}">
-                {% raw %} {{ cell.letter }} {% endraw %}
+            <td class="cell" jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" data-drop="true"
+                data-ng-repeat="cell in row" style="background-color: {% raw %}{{ cell.getColor() }}{% endraw %}">
+                <span class='letter'>{% raw %} {{ cell.letter }} {% endraw %}</span>
             </td>
         </tr>
     </table>

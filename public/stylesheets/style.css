@@ -16,6 +16,7 @@ body td {
   width: 40px;
   height: 40px;
   border: 1px solid black;
+  text-align: center;
 }
 body ul#letters {
   list-style: none;
@@ -26,5 +27,6 @@ body ul#letters li {
   height: 40px;
   border: 1px solid black;
   text-align: center;
+  line-height: 40px;
   background-color: antiquewhite;
 }

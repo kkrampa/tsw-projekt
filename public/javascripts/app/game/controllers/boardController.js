@@ -3,8 +3,16 @@
     var gameModule = angular.module('game', ['ngDragDrop']);
     gameModule.controller('boardCtrl', function($scope) {
 		var Cell = function(color) {
-			this.color = color || 'white';
+            var self = this;
+			var color = color || 'white';
             this.letter = null;
+            
+            this.getColor = function() {
+                if (self.letter) {
+                    return 'antiquewhite';
+                }
+                return color;
+            }
 		};
 		
 		var Letter = function(character) {
