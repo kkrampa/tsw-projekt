@@ -1,10 +1,19 @@
-{% extends 'layout.html' %}
-
-{% block content %}
-    <h1>{{ title }}</h1>
-    <table data-ng-app="game" data-ng-controller="boardCtrl">
+{% extends 'layout.html' %} {% block content %}
+<h1>{{ title }}</h1>
+<div data-ng-app="game" data-ng-controller="boardCtrl">
+    <table>
         <tr data-ng-repeat="row in board">
-            <td data-ng-repeat="cell in row" style="background-color: {% raw %}{{ cell.color }}{% endraw %}"></td>
+            <td jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" data-drop="true"
+                data-ng-repeat="cell in row" style="background-color: {% raw %}{{ cell.color }}{% endraw %}">
+                {% raw %} {{ cell.letter }} {% endraw %}
+            </td>
         </tr>
     </table>
+    <ul id="letters">
+        <li data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+            data-containment="position"
+            jqyoui-draggable="{index: {% raw %}{{$index}}{% endraw %}, animate:true}" data-ng-repeat="letter in letters">{% raw %}{{ letter.character }}{% endraw %}</li>
+    </ul>
+</div>
+
 {% endblock %}
