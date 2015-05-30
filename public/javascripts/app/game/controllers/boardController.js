@@ -1,18 +1,21 @@
 (function () {
     "use strict";
     var gameModule = angular.module('game', ['ngDragDrop']);
-    gameModule.controller('boardCtrl', function ($scope) {
+    gameModule.controller('boardCtrl', function ($scope) {        
         var Cell = function (cellColor) {
             var self = this;
             var color = cellColor || 'white';
             this.letter = null;
-
             this.getColor = function () {
                 if (self.letter) {
                     return 'antiquewhite';
                 }
                 return color;
             };
+        };
+        
+        $scope.isDroppable = function($index, $parent) {
+            return ($scope.board[7][7].letter !== null || ($index === 7 && $parent === 7));
         };
 
         var Letter = function (character) {
@@ -31,85 +34,87 @@
         $scope.onDrop = function (event, ui, letter, $index, $parent) {
             var draggableLetter = ui.draggable.text();
             ui.draggable.remove();
+            console.log($parent);
+            console.log($index);
             $scope.board[$parent][$index].letter = draggableLetter;
         };
 
-        $scope.board = [
-   [
-    new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('red'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
-   ],
-   [
-    new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell(),
-    new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
-    new Cell(), new Cell(), new Cell(), new Cell('pink'), new Cell()
-   ],
-   [
-    new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell()
-   ],
-   [
-    new Cell('lightblue'), new Cell(), new Cell(), new Cell('pink'), new Cell(),
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
-    new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell('lightblue')
-   ],
-   [
-    new Cell(), new Cell(), new Cell(), new Cell(), new Cell('pink'),
-    new Cell(), new Cell(), new Cell(), new Cell(), new Cell(),
-    new Cell('pink'), new Cell(), new Cell(), new Cell(), new Cell()
-   ],
-   [
-    new Cell(), new Cell('blue'), new Cell(), new Cell(), new Cell(),
-    new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
-    new Cell(), new Cell(), new Cell(), new Cell('blue'), new Cell()
-   ],
-   [
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell()
-   ],
-   [
-    new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
-   ],
-   [
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell()
-   ],
-   [
-    new Cell(), new Cell('blue'), new Cell(), new Cell(), new Cell(),
-    new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
-    new Cell(), new Cell(), new Cell(), new Cell('blue'), new Cell()
-   ],
-   [
-    new Cell(), new Cell(), new Cell(), new Cell(), new Cell('pink'),
-    new Cell(), new Cell(), new Cell(), new Cell(), new Cell(),
-    new Cell('pink'), new Cell(), new Cell(), new Cell(), new Cell()
-   ],
-   [
-    new Cell('lightblue'), new Cell(), new Cell(), new Cell('pink'), new Cell(),
-    new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
-    new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell('lightblue')
-   ],
-   [
-    new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell()
-   ],
-   [
-    new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell(),
-    new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
-    new Cell(), new Cell(), new Cell(), new Cell('pink'), new Cell()
-   ],
-   [
-    new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
-    new Cell(), new Cell(), new Cell('red'), new Cell(), new Cell(),
-    new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
-   ],
-  ];
+       $scope.board = [
+           [
+            new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('red'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
+           ],
+           [
+            new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell(),
+            new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
+            new Cell(), new Cell(), new Cell(), new Cell('pink'), new Cell()
+           ],
+           [
+            new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell()
+           ],
+           [
+            new Cell('lightblue'), new Cell(), new Cell(), new Cell('pink'), new Cell(),
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
+            new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell('lightblue')
+           ],
+           [
+            new Cell(), new Cell(), new Cell(), new Cell(), new Cell('pink'),
+            new Cell(), new Cell(), new Cell(), new Cell(), new Cell(),
+            new Cell('pink'), new Cell(), new Cell(), new Cell(), new Cell()
+           ],
+           [
+            new Cell(), new Cell('blue'), new Cell(), new Cell(), new Cell(),
+            new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
+            new Cell(), new Cell(), new Cell(), new Cell('blue'), new Cell()
+           ],
+           [
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell()
+           ],
+           [
+            new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('pink', true), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
+           ],
+           [
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell()
+           ],
+           [
+            new Cell(), new Cell('blue'), new Cell(), new Cell(), new Cell(),
+            new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
+            new Cell(), new Cell(), new Cell(), new Cell('blue'), new Cell()
+           ],
+           [
+            new Cell(), new Cell(), new Cell(), new Cell(), new Cell('pink'),
+            new Cell(), new Cell(), new Cell(), new Cell(), new Cell(),
+            new Cell('pink'), new Cell(), new Cell(), new Cell(), new Cell()
+           ],
+           [
+            new Cell('lightblue'), new Cell(), new Cell(), new Cell('pink'), new Cell(),
+            new Cell(), new Cell(), new Cell('lightblue'), new Cell(), new Cell(),
+            new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell('lightblue')
+           ],
+           [
+            new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('pink'), new Cell(), new Cell()
+           ],
+           [
+            new Cell(), new Cell('pink'), new Cell(), new Cell(), new Cell(),
+            new Cell('blue'), new Cell(), new Cell(), new Cell(), new Cell('blue'),
+            new Cell(), new Cell(), new Cell(), new Cell('pink'), new Cell()
+           ],
+           [
+            new Cell('red'), new Cell(), new Cell(), new Cell('lightblue'), new Cell(),
+            new Cell(), new Cell(), new Cell('red'), new Cell(), new Cell(),
+            new Cell(), new Cell('lightblue'), new Cell(), new Cell(), new Cell('red')
+           ],
+        ];
     });
 }());
