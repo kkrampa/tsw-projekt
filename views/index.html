@@ -8,16 +8,15 @@
                 <td class="cell" jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" 
                     data-drop="{{ isDroppable($index, $parent.$index) }}"
                     data-ng-repeat="cell in row" style="background-color: {{ cell.getColor() }}">
-                    <span class='letter'>{{ cell.letter }}</span>
+                    <span data-drag="{{ cell.letter !== null }}" data-jqyoui-options="{revert: true}"
+                    jqyoui-draggable="{index: {{$index}}, animate:true, onStart: 'onDragFromBoard(cell.letter, cell)'}" class='letter'>{{ cell.letter.character }}</span>
                 </td>
             </tr>
         </table>
         <ul id="letters">
-            <li data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                data-containment="position"
-                jqyoui-draggable="{index: {{$index}}, animate:true}" data-ng-repeat="letter in letters">
-                {{ letter.character }}
-            </li>
+            <li data-ng-show="!letter.isUsed" data-drag="true" data-jqyoui-options="{revert: true}"
+                data-containment="position" data-index="{{$index}}" jqyoui-droppable="{onDrop:'onDropBack($index)'}" data-drop="true"
+                jqyoui-draggable="{index: {{$index}}, onStart: 'onDragStart(letter)'}" data-ng-repeat="letter in letters">{{ letter.character }}</li>
         </ul>
     </div>
 {% endraw %}

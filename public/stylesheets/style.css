@@ -18,6 +18,11 @@ body td {
   border: 1px solid black;
   text-align: center;
 }
+body .letter {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
 body ul#letters {
   list-style: none;
 }
