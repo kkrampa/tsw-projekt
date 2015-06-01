@@ -2,22 +2,45 @@
 {% block content %}
     <h1>{{ title }}</h1>
 {% raw %}
-    <div data-ng-app="game" data-ng-controller="boardCtrl">
-        <table>
-            <tr data-ng-repeat="row in board">
-                <td class="cell" jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" 
-                    data-drop="{{ isDroppable($index, $parent.$index) }}"
-                    data-ng-repeat="cell in row" style="background-color: {{ cell.getColor() }}">
-                    <span data-drag="{{ cell.letter !== null }}" data-jqyoui-options="{revert: true}"
-                    jqyoui-draggable="{index: {{$index}}, animate:true, onStart: 'onDragFromBoard(cell.letter, cell)'}" class='letter'>{{ cell.letter.character }}</span>
-                </td>
-            </tr>
-        </table>
-        <ul id="letters">
-            <li data-ng-show="!letter.isUsed" data-drag="true" data-jqyoui-options="{revert: true}"
-                data-containment="position" data-index="{{$index}}" jqyoui-droppable="{onDrop:'onDropBack($index)'}" data-drop="true"
-                jqyoui-draggable="{index: {{$index}}, onStart: 'onDragStart(letter)'}" data-ng-repeat="letter in letters">{{ letter.character }}</li>
-        </ul>
+    <div class="container-fluid" data-ng-app="game" data-ng-controller="boardCtrl">
+        <div class="row buttons">
+            <div class="col-md-7">
+                <table>
+                    <tr data-ng-repeat="row in board">
+                        <td class="cell" 
+                            jqyoui-droppable="{onDrop:'onDrop(cell, $index, $parent.$index)'}" 
+                            data-drop="{{ isDroppable($index, $parent.$index) }}"
+                            data-ng-repeat="cell in row" 
+                            style="background-color: {{ cell.getColor() }}">
+                            <span data-drag="{{ cell.letter !== null && isInActualMove(cell.letter) }}"
+                                  data-jqyoui-options="{revert: true}"
+                                  jqyoui-draggable="{index: {{$index}}, animate:true, onStart: 'onDragFromBoard(cell.letter, cell)'}" 
+                                  class='letter'>{{ cell.letter.character }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="col-md-2">
+                <button data-ng-click="endMove()">Zakończ ruch</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="letters">
+                    <li data-ng-show="!letter.isUsed" 
+                        data-drag="true" 
+                        data-jqyoui-options="{revert: true}"
+                        data-containment="position" 
+                        data-index="{{$index}}" 
+                        jqyoui-droppable="{onDrop:'onDropBack($index)'}" 
+                        data-drop="true"
+                        jqyoui-draggable="{index: {{$index}}, onStart: 'onDragStart(letter)'}" 
+                        data-ng-repeat="letter in letters">{{ letter.character }}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 {% endraw %}
 
