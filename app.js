@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var app = express();
 
 var swig  = require('swig');
+var server = require('./server');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -59,6 +60,9 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+var httpServer = require("http").Server(app);
+var io = require("socket.io")(httpServer);
 
 
 module.exports = app;
