@@ -56,7 +56,6 @@ describe("Game server", function() {
                 rooms.length.should.equal(0);
                 done();
             });
-        
             client2.emit('rooms');
         });
     });
@@ -70,6 +69,31 @@ describe("Game server", function() {
                 rooms.length.should.equal(1);
                 var room = rooms[0];
                 room.should.equal("test");
+                client.disconnect();
+                done();
+            });
+        });
+    });
+    
+    it('should assign nick', function(done) {
+        client = io.connect(socketURL, options);
+        client.emit("assignNick", "test");
+        client.on("echo", function(data) {
+            data.status.should.equal("success");
+            client.disconnect();
+            done();
+        });
+    });
+    
+    it('should not assign nick', function(done) {
+        client = io.connect(socketURL, options);
+        client.emit("assignNick", "test");
+        client.on("echo", function(data) {
+            data.status.should.equal("success");
+            client2 = io.connect(socketURL, options);
+            client2.emit("assignNick", "test");
+            client2.on("echo", function(data) {
+                data.status.should.equal("failure");
                 done();
             });
         });

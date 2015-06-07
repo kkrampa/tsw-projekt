@@ -1,0 +1,17 @@
+<div>
+    
+    <ul id="rooms">
+        <li data-ng-repeat="room in rooms">{{ room }} <a href="#" data-ng-click='join(room)'>Dołącz</a></li>
+    </ul>
+
+    
+    <h4>Dodaj nowy pokój</h4>
+
+    <form>
+        <div class="form-group">
+            <label for="name">Nazwa</label>
+            <input data-ng-model="name" type="text" class="form-control" id="nick" placeholder="Wprowadź nazwę pokoju">
+        </div>
+        <button data-ng-click="create()" type="submit" class="btn btn-default">Wyślij</button>
+    </form>
+</div>

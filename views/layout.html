@@ -1,17 +1,25 @@
 <!doctype html>
-<html>
+<html data-ng-app="game">
     <head>
         <title>{{ title }}</title>
         <meta charset="utf-8">
         <link rel='stylesheet' href='stylesheets/style.css' />
         <link rel='stylesheet' href="bootstrap/dist/css/bootstrap.min.css"></script>
-
+        
         <script src='/jquery/dist/jquery.min.js'></script>
         <script src='/jquery-ui/jquery-ui.min.js'></script>
         <script src='/angular/angular.js'></script>
-        <script src='/javascripts/app/game/controllers/boardController.js'></script>
         <script src="/angular-dragdrop/src/angular-dragdrop.min.js"></script>
         <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/angular-socket-io/socket.min.js"></script>
+        <script src="/javascripts/gameServer.js"></script>
+        <script src='/javascripts/app/app.js'></script>
+        <script src='/javascripts/app/game/controllers/boardController.js'></script>
+    {% block additionaljs %}
+    {% endblock %}
+
     </head>
     <body>
         {% block content %}

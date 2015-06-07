@@ -1,7 +1,9 @@
 (function () {
     "use strict";
-    var gameModule = angular.module('game', ['ngDragDrop']);
-    gameModule.controller('boardCtrl', function ($scope) {  
+    var gameModule = angular.module('game');
+    gameModule.controller('boardCtrl', function ($scope, $state, socket) {
+        
+        var gameServer = new GameServer(socket);
         
         //helpers
         var Cell = function (cellColor) {
@@ -22,7 +24,7 @@
         };
         
         //scope fields
-        
+                        
         $scope.draggedItem = null;
         
         $scope.actualMove = [];
