@@ -1,3 +1,3 @@
 {
-  "predef": ["angular"]
+  "predef": ["angular", "require", "module", "describe", "it", "__dirname"]
 }
