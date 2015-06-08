@@ -5,7 +5,6 @@ var server = require('./server');
 server(httpServer);
 
 httpServer.listen(3000, function () {
-    console.log('Serwer HTTP działa na porcie ' + 3000);
 });
 
 var path = require('path');
@@ -13,12 +12,30 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var mongoose = require('mongoose');
 
-var routes = require('./routes/index');
+mongoose.connect('mongodb://localhost/passport');
+
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+var routes = require('./routes/index')(passport);
 var users = require('./routes/users');
 
+var flash = require('connect-flash');
+app.use(flash());
 
 var swig  = require('swig');
+
+var expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'mySecretKey', 
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -22,6 +22,18 @@
 
     </head>
     <body>
+        <header>
+            {% if user %}
+                <div>
+                    <a class="pull-right" href="/logout">Wyloguj się</a>
+                </div>
+            {% endif %}
+        </header>
+        {% if message != '' %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endif %}
         {% block content %}
         
         {% endblock %}

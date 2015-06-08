@@ -22,9 +22,17 @@
         </div>
 
         <div class="col-md-2">
-            <button data-ng-click="endMove()">Zakończ ruch</button>
-            <p>
-                {{ players }}
+            <button data-ng-click="endMove()" data-ng-show="inMove">Zakończ ruch</button>
+            <button data-ng-click="ready()" data-ng-hide="isReady">Zacznij grę</button>
+
+            <button data-ng-click="accept()" data-ng-show="evaluateMove">Akceptuj</button>
+            
+            <p data-ng-show="inMove">
+                Twoja kolej
+            </p>
+            
+            <p data-ng-show="isReady && !inMove">
+                Oczekiwanie na ruch
             </p>
         </div>
     </div>
@@ -33,7 +41,7 @@
         <div class="col-md-12">
             <ul id="letters">
                 <li data-ng-show="!letter.isUsed" 
-                    data-drag="true" 
+                    data-drag="{{ inMove }}" 
                     data-jqyoui-options="{revert: true}"
                     data-containment="position" 
                     data-index="{{$index}}" 

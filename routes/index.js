@@ -1,17 +1,42 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Aplikacja zaliczeniowa' });
-});
+module.exports = function(passport) {
+    var isAuthenticated = function (req, res, next) {
+      if (req.isAuthenticated()) {
+        return next();
+      }
+      res.redirect('/login');
+    };
 
-router.get('/rooms', function(req, res, next) {
-    res.render('rooms', { rooms: []});
-});
+    router.get('/', isAuthenticated, function(req, res) {
+        res.render('index', { user: req.user });
+    });
 
-router.get('/game', function(req, res, next) {
-  res.render('game', { title: 'Aplikacja zaliczeniowa' });
-});
+    router.get('/login', function(req, res) {
+        res.render('login', { message: req.flash('message') });
+    });
+    
+    router.post('/login', passport.authenticate('login', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash : true  
+    }));
 
-module.exports = router;
+    router.get('/register', function(req, res) {
+        res.render('register', {message: req.flash('message')});
+    });
+
+    router.post('/register', passport.authenticate('register', {
+        successRedirect: '/login',
+        failureRedirect: '/register',
+        failureFlash : true  
+    }));
+    
+    router.get('/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
+
+    return router;
+};

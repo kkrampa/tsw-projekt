@@ -3,6 +3,33 @@
     var gameModule = angular.module('game');
     gameModule.controller('boardCtrl', function ($scope, $state, socket) {
         
+        
+        var dirtyFields = [];
+        socket.on("letters", function(letters) {
+            $scope.letters = letters;
+        });
+    
+        socket.on("gameStarted", function(board) {
+        });
+        
+        socket.on("yourMove", function() {
+            $scope.inMove = true;
+        });
+        
+        socket.on("opponentMove", function(move) {
+            move.forEach(function(element) {
+                var cell = $scope.board[element.x][element.y];
+                cell.letter = element;
+                cell.isDirty = true;
+                dirtyFields.push(cell);
+            });
+            $scope.evaluateMove = true;
+        });
+        
+        socket.on("accept", function() {
+            
+        });
+        
         var gameServer = new GameServer(socket);
         
         //helpers
@@ -10,7 +37,13 @@
             var self = this;
             var color = cellColor || 'white';
             this.letter = null;
+            this.isDirty = false;
+            this.x = null;
+            this.y = null;
             this.getColor = function () {
+                if (self.isDirty) {
+                    return "yellow";
+                }
                 if (self.letter) {
                     return 'antiquewhite';
                 }
@@ -24,6 +57,12 @@
         };
         
         //scope fields
+                
+        $scope.evaluateMove = false;
+        
+        $scope.inMove = false;
+        
+        $scope.isReady = false;
                         
         $scope.draggedItem = null;
         
@@ -34,9 +73,7 @@
             'S', 'Ś', 'T', 'U', 'W', 'Y', 'Z', 'Ź', 'Ż'
         ];
 
-        $scope.letters = polishCharacters.map(function (el) {
-            return new Letter(el);
-        });
+        $scope.letters = [];
         
         $scope.draggedCell = null;
         
@@ -131,7 +168,9 @@
         };
         
         $scope.endMove = function() {
-            $scope.actualMove = [];  
+            socket.emit('move', $scope.actualMove);
+            $scope.actualMove = [];
+            $scope.inMove = false;
         };
         
         $scope.isInActualMove = function($item) {
@@ -159,6 +198,8 @@
             }
             
             $scope.draggedItem.isUsed = true;
+            $scope.draggedItem.x = $parent;
+            $scope.draggedItem.y = $index;
             $scope.board[$parent][$index].letter = $scope.draggedItem;
             $scope.actualMove.push($scope.draggedItem);
             $scope.draggedItem = null;
@@ -175,6 +216,20 @@
             $scope.draggedItem = null;            
             $scope.draggedCell.letter = null;
             $scope.draggedCell = null;
+        };
+        
+        $scope.ready = function() {
+            socket.emit("ready");
+            $scope.isReady = true;
+        };
+        
+        $scope.accept = function() {
+            socket.emit("accept");
+            $scope.evaluateMove = false;
+            dirtyFields.forEach(function(element) {
+                element.isDirty = false;
+            });
+            dirtyFields = [];
         };
     });
 }());
