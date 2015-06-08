@@ -57,6 +57,8 @@
         };
         
         //scope fields
+        
+        $scope.messages = [];
                 
         $scope.evaluateMove = false;
         
@@ -167,10 +169,52 @@
             return $scope.draggedItem.isUsed;
         };
         
+        var checkAllEqual = function(arr) {
+            for(var i = 1; i < arr.length; i++) {
+                if(arr[i] !== arr[0]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        var moveIsLegal = function() {
+            if ($scope.actualMove.length < 1) {
+                return false;
+            }
+            
+            var xs = $scope.actualMove.map(function(element) { return element.x; });
+            var ys = $scope.actualMove.map(function(element) { return element.y; });
+            
+            var temp = [];
+            if (checkAllEqual(xs)) {
+                temp = ys.sort(function(a, b){return a-b});;
+            }
+            
+            if (checkAllEqual(ys)) {
+                temp = xs.sort(function(a, b){return a-b});;
+            }
+            
+            if (temp.length === 0) {
+                return false;
+            }
+            
+            for (var m = 1; m < temp.length; m++) {
+                if (Math.abs(temp[m] - temp[m - 1]) !== 1) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        
         $scope.endMove = function() {
-            socket.emit('move', $scope.actualMove);
-            $scope.actualMove = [];
-            $scope.inMove = false;
+            if (moveIsLegal()) {
+                socket.emit('move', $scope.actualMove);
+                $scope.actualMove = [];
+                $scope.inMove = false;
+            } else {
+                $scope.messages = ["NIE!!"];
+            }
         };
         
         $scope.isInActualMove = function($item) {
@@ -201,7 +245,9 @@
             $scope.draggedItem.x = $parent;
             $scope.draggedItem.y = $index;
             $scope.board[$parent][$index].letter = $scope.draggedItem;
-            $scope.actualMove.push($scope.draggedItem);
+            if ($scope.actualMove.filter(function(element) { return element === $scope.draggedItem}).length === 0) {
+                $scope.actualMove.push($scope.draggedItem);
+            }
             $scope.draggedItem = null;
         };
         

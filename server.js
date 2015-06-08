@@ -190,13 +190,11 @@ module.exports = function(server) {
         socket.on("move", function(move) {
             var room = userRoom[socket.id];
             var opponentSocket = roomGameMap[room].opponent(socket).socket;
-            
+            opponentSocket.emit('opponentMove', move);
             var game = roomGameMap[room];
-            
-            game.sendLettersToPlayers();
             opponentSocket.on('accept', function() {
                 socket.emit('accept');
-                opponentSocket.emit('opponentMove', move);
+                game.sendLettersToPlayers();
                 roomGameMap[room].setActive();
             });
             
