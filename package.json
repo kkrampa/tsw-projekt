@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "postinstall": "bower install",
-    "test": "grunt jshint mocha"
+    "test": "grunt jshint mocha",
+    "init": "node ./bin/init"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -21,7 +22,11 @@
     "express-session": "~1.11.2",
     "passport": "~0.2.2",
     "bcrypt": "~0.8.3",
-    "connect-flash": "~0.1.1"
+    "connect-flash": "~0.1.1",
+    "mongodb": "~2.0.33",
+    "passport.socketio": "~3.5.1",
+    "cookie-sessions": "0.0.2",
+    "session-file-store": "0.0.13"
   },
   "devDependencies": {
     "chai": "~3.0.0",

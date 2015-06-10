@@ -1,11 +1,12 @@
 var express = require('express');
 var app = express();
 var httpServer = require("http").Server(app);
-var server = require('./server');
-server(httpServer);
 
-httpServer.listen(3000, function () {
-});
+var io = require("socket.io")(httpServer);
+var server = require('./server');
+
+var passportSocketIo = require("passport.socketio");
+
 
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -27,13 +28,24 @@ var flash = require('connect-flash');
 app.use(flash());
 
 var swig  = require('swig');
-
 var expressSession = require('express-session');
+var FileStore = require('session-file-store')(expressSession);
+var fs = new FileStore();
 app.use(expressSession({
     secret: 'mySecretKey', 
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: fs
 }));
+
+io.use(passportSocketIo.authorize({
+  cookieParser: cookieParser,       // the same middleware you registrer in express
+  key:          'connect.sid',       // the name of the cookie where express/connect stores its session_id
+  secret:       'mySecretKey',    // the session_secret to parse the cookie
+  store:        fs      // we NEED to use a sessionstore. no memorystore please
+}));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -83,6 +95,11 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+});
+
+server(io);
+
+httpServer.listen(3000, function () {
 });
 
 module.exports = app;

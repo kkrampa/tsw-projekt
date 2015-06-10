@@ -65,7 +65,7 @@ module.exports = function(passport) {
                         return done(err);
                     }
                     if (!user){
-                        return done(null, false, req.flash('message', 'Użytkownik o podanej nazwie nie został znaleziony.'));                 
+                        return done(null, false, req.flash('message', 'Użytkownik o podanej nazwie nie został znaleziony.'));
                     }
                     if (!isValidPassword(user, password)){
                         console.log('Invalid Password');

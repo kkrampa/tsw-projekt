@@ -3,8 +3,8 @@
         <a ui-sref="rooms">Powrót do listy pokoi</a>
     </div>
     
-    <div>
-        {% raw %} {{ messages }} {% endraw %}
+    <div class="alert alert-warning" data-ng-repeat="message in messages">
+        {{ message }}
     </div>
     
     <div class="row buttons">
@@ -30,6 +30,14 @@
             <button data-ng-click="ready()" data-ng-hide="isReady">Zacznij grę</button>
 
             <button data-ng-click="accept()" data-ng-show="evaluateMove">Akceptuj</button>
+            <button data-ng-click="check()" data-ng-show="evaluateMove">Sprawdź</button>
+            
+            <ul>
+                <li style="list-style: none;">Punkty</li>
+                <li data-ng-repeat="point in points">
+                    {{ point.username }} - {{ point.points }}
+                </li>
+            </ul>
             
             <p data-ng-show="inMove">
                 Twoja kolej
@@ -38,6 +46,10 @@
             <p data-ng-show="isReady && !inMove">
                 Oczekiwanie na ruch
             </p>
+            
+            <ul class="echoes">
+                <li data-ng-repeat="echo in echoes">{{ echo.message }}</li>
+            </ul>
         </div>
     </div>
 

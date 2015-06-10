@@ -44,3 +44,8 @@ body ul#letters li {
   line-height: 40px;
   background-color: antiquewhite;
 }
+body ul.echoes {
+  height: 100px;
+  width: 200px;
+  overflow-y: scroll;
+}
